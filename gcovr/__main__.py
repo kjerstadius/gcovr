@@ -117,14 +117,15 @@ def find_config_name(partial_options):
     if cfg_name is not None:
         return cfg_name
 
+    search_paths = [os.getcwd()]
     root = getattr(partial_options, 'root', '')
     if root:
-        cfg_name = os.path.join(root, 'gcovr.cfg')
-    else:
-        cfg_name = 'gcovr.cfg'
+        search_paths.append(root)
 
-    if os.path.isfile(cfg_name):
-        return cfg_name
+    for path in search_paths:
+        cfg_name = os.path.join(path, 'gcovr.cfg')
+        if os.path.isfile(cfg_name):
+            return cfg_name
 
     return None
 
