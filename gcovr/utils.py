@@ -139,7 +139,7 @@ def calculate_coverage(covered, total, nan_value=0.0):
     return nan_value if total == 0 else round(100.0 * covered / total, 1)
 
 
-def build_filter(logger, regex):
+def build_filter(logger, regex, filter_root=os.getcwd()):
     # Try to detect unintended backslashes and warn.
     # Later, the regex engine may or may not raise a syntax error.
     # An unintended backslash is a literal backslash r"\\",
@@ -154,7 +154,7 @@ def build_filter(logger, regex):
     if os.path.isabs(regex):
         return AbsoluteFilter(regex)
     else:
-        return RelativeFilter(os.getcwd(), regex)
+        return RelativeFilter(filter_root, regex)
 
 
 class Filter(object):

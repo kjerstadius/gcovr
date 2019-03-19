@@ -214,7 +214,7 @@ def main(args=None):
         options.exclude_dirs = [
             build_filter(logger, f) for f in options.exclude_dirs]
 
-    options.exclude = [build_filter(logger, f) for f in options.exclude]
+    options.exclude = [build_filter(logger, f, options.root_dir) for f in options.exclude]
     options.filter = [build_filter(logger, f) for f in options.filter]
     if not options.filter:
         options.filter = [DirectoryPrefixFilter(options.root_dir)]
