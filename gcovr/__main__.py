@@ -115,13 +115,13 @@ COPYRIGHT = (
 def find_config_name(partial_options):
     cfg_name = getattr(partial_options, 'config', None)
     if cfg_name is not None:
-        return cfg_name
+        return os.path.abspath(cfg_name)
 
     root = getattr(partial_options, 'root', '')
     if root:
-        cfg_name = os.path.join(root, 'gcovr.cfg')
+        cfg_name = os.path.abspath(os.path.join(root, 'gcovr.cfg'))
     else:
-        cfg_name = 'gcovr.cfg'
+        cfg_name = os.path.abspath('gcovr.cfg')
 
     if os.path.isfile(cfg_name):
         return cfg_name

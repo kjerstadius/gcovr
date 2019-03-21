@@ -261,7 +261,6 @@ def parse_config_into_dict(config_entry_source, all_options=None):
 
 
 def _get_value_from_config_entry(cfg_entry, option):
-
     def get_boolean(silent_error=False):
         try:
             return cfg_entry.value_as_bool
@@ -757,8 +756,17 @@ class ConfigEntry(object):
             Line of the entry in the config file, for error messages.
     """
     def __init__(self, key, value, filename=None, lineno=None):
+        if filename is not None:
+            cfg_file_path = os.path.dirname(filename)
+        else:
+            cfg_file_path = ''
+        filter_options = [option.name for option in GCOVR_CONFIG_OPTIONS
+                          if option.group == 'filter_options']
         self.key = key
-        self.value = value
+        if key in filter_options:
+            self.value = os.path.join(cfg_file_path, value)
+        else:
+            self.value = value
         self.filename = filename
         self.lineno = lineno
 
